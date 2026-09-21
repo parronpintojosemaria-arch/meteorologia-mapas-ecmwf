@@ -1,5 +1,5 @@
 # europe-domain: 40W-60E 22N-76N · regeneracion 2026-09-20
-name: vNext · Candidato Pages · ECMWF · 3.392 mapas
+name: vNext · Candidato Pages · ECMWF · 3.512 mapas
 
 # visual-2: paletas HD profesionales · 2026-09-18
 on:
@@ -113,7 +113,7 @@ jobs:
           import json, os
           from pathlib import Path
           from PIL import Image
-          expected={'surface':1352,'lower':1020,'upper':1020}
+          expected={'surface':1472,'lower':1020,'upper':1020}
           group=os.environ['GROUP']; cycle=os.environ['CYCLE']
           root=Path('vnext-full-out/ecmwf/cycles')/cycle
           f=root/f'fragment-{group}.json'
@@ -140,7 +140,7 @@ jobs:
           compression-level: 1
 
   build:
-    name: Ensamblar · validar 3.392 · preparar Pages
+    name: Ensamblar · validar 3.512 · preparar Pages
     needs: [prepare, generate]
     runs-on: ubuntu-24.04
     timeout-minutes: 180
@@ -183,10 +183,10 @@ jobs:
           import json
           from pathlib import Path
           r=json.loads(Path('vnext-full-summary/ecmwf/report.json').read_text())
-          assert r['status']=='ok' and r['maps']==3392 and r['production_changed'] is False
+          assert r['status']=='ok' and r['maps']==3512 and r['production_changed'] is False
           assert r['fits_single_model_pages_repo'] is True
           assert float(r['image_mib']) < 940.0
-          print('ECMWF PAGES OK · 3392 mapas ·',r['image_mib'],'MiB')
+          print('ECMWF PAGES OK · 3512 mapas ·',r['image_mib'],'MiB')
           PY
 
       - name: Preparar sitio candidato
@@ -207,7 +207,7 @@ jobs:
           cat > ../site/index.html <<'HTML'
           <!doctype html><meta charset="utf-8"><title>Meteorología Interactiva · ECMWF IFS</title>
           <h1>Meteorología Interactiva · ECMWF IFS</h1>
-          <p>Candidato vNext HD. Datos: ECMWF Open Data. 3.392 mapas.</p>
+          <p>Candidato vNext HD. Datos: ECMWF Open Data. 3.512 mapas.</p>
           <p><a href="current.json">current.json</a></p>
           HTML
           touch ../site/.nojekyll
@@ -220,7 +220,7 @@ jobs:
           import json, os
           from pathlib import Path
           c=json.loads(Path('site/current.json').read_text())
-          assert c['status']=='ready' and c['model']=='ecmwf' and c['file_count']==3392
+          assert c['status']=='ready' and c['model']=='ecmwf' and c['file_count']==3512
           assert c['cycle']==os.environ['CYCLE']
           assert Path('site/cycles',c['cycle'],'manifest.json').is_file()
           print('CURRENT CANDIDATO ECMWF OK',c['cycle'],c['file_count'])
