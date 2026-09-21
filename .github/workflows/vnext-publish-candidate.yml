@@ -7,6 +7,9 @@ on:
     - cron: '15 10 * * *'
     - cron: '15 22 * * *'
   workflow_dispatch:
+  push:
+    paths:
+      - 'TRIGGER-IFS-3512.txt'
 
 permissions:
   contents: read
